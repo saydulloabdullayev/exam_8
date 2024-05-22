@@ -2,9 +2,9 @@ from django.urls import path
 from rest_framework import routers
 
 from myapp_1.views import (
-    TUITSystemsViewSet,
-    TUITGroupsViewSet,
-    TUITTypesViewSet,
+    TUITMainViewSet,
+    TUITPublicationsViewSet,
+    TUITPapersViewSet,
     TUITRequirementsViewSet,
     TUITFAQViewSet,
     TUITContactsViewSet,
@@ -12,12 +12,12 @@ from myapp_1.views import (
 
 
 router = routers.DefaultRouter()
-router.register(r'systems', TUITSystemsViewSet, basename='system')
-router.register(r'groups', TUITGroupsViewSet, basename='group')
-router.register(r'types', TUITTypesViewSet, basename='type')
-router.register(r'requirements', TUITRequirementsViewSet, basename='requirement')
-router.register(r'faqs', TUITFAQViewSet, basename='faq')
-router.register(r'contacts', TUITContactsViewSet, basename='contact')
+router.register(r'main', TUITMainViewSet, basename='Main')
+router.register(r'publications', TUITPublicationsViewSet, basename='Publication')
+router.register(r'papers', TUITPapersViewSet, basename='Paper')
+router.register(r'requirements', TUITRequirementsViewSet, basename='Requirement')
+router.register(r'faqs', TUITFAQViewSet, basename='FAQ')
+router.register(r'contacts', TUITContactsViewSet, basename='Contact')
 
 
 urlpatterns = router.urls

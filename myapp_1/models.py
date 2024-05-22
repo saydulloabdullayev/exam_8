@@ -13,7 +13,8 @@ class AbstractBaseModel(models.Model):
         abstract = True
         db_table = 'abstract_model'
 
-class TUITSystemsModel(AbstractBaseModel):
+
+class TUITMainModel(AbstractBaseModel):
     code = models.CharField(max_length=20, unique=True)
     system_name_uz = models.CharField(max_length=255, unique=True)
     system_name_ru = models.CharField(max_length=255, unique=True, null=True)
@@ -25,31 +26,34 @@ class TUITSystemsModel(AbstractBaseModel):
         db_table = 'tuit_systems'
         verbose_name_plural = 'TUIT systems'
 
-class TUITGroupsModel(AbstractBaseModel):
-    group_code = models.CharField(max_length=150)
-    group_name_uz = models.CharField(max_length=255)
-    group_name_ru = models.CharField(max_length=255)
-    group_system = models.ForeignKey(TUITSystemsModel, on_delete=models.CASCADE)
+
+class TUITPublicationsModel(AbstractBaseModel):
+    publication_code = models.CharField(max_length=150)
+    publication_name_uz = models.CharField(max_length=255)
+    publication_name_ru = models.CharField(max_length=255)
+    publication_system = models.ForeignKey(TUITMainModel, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.group_code} - {self.group_name_uz}"
+        return f"{self.publication_code} - {self.publication_name_uz}"
 
     class Meta:
-        db_table = 'tuit_groups'
-        verbose_name_plural = 'TUIT groups'
+        db_table = 'tuit_publications'
+        verbose_name_plural = 'TUIT publications'
 
-class TUITTypesModel(AbstractBaseModel):
-    type_name_uz = models.CharField(max_length=100, unique=True)
-    type_name_ru = models.CharField(max_length=100, unique=True, null=True)
-    type_description_uz = models.CharField(max_length=255, null=True)
-    type_description_ru = models.CharField(max_length=255, null=True)
+
+class TUITPapersModel(AbstractBaseModel):
+    paper_name_uz = models.CharField(max_length=100, unique=True)
+    paper_name_ru = models.CharField(max_length=100, unique=True, null=True)
+    paper_description_uz = models.CharField(max_length=255, null=True)
+    paper_description_ru = models.CharField(max_length=255, null=True)
 
     def __str__(self):
-        return f"{self.type_name_uz} - {self.type_description_uz}"
+        return f"{self.paper_name_uz} - {self.paper_description_uz}"
 
     class Meta:
-        db_table = 'tuit_types'
-        verbose_name_plural = 'TUIT types'
+        db_table = 'tuit_papers'
+        verbose_name_plural = 'TUIT papers'
+
 
 class TUITRequirementsModel(AbstractBaseModel):
     req_title_uz = models.CharField(max_length=100, unique=True)
@@ -63,6 +67,7 @@ class TUITRequirementsModel(AbstractBaseModel):
     class Meta:
         db_table = 'tuit_requirements'
         verbose_name_plural = 'TUIT requirements'
+
 
 class TUITFaqModel(AbstractBaseModel):
     question_uz = models.CharField(max_length=100, unique=True)
@@ -80,7 +85,7 @@ class TUITFaqModel(AbstractBaseModel):
 
 class TUITContactsModel(AbstractBaseModel):
     first_name = models.CharField(max_length=150)
-    last_name = models.CharField(max_length=150)
+    email = models.CharField(max_length=150)
     message = models.TextField()
 
     def __str__(self):

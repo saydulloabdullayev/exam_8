@@ -8,20 +8,20 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.filters import SearchFilter
 
-from .filters import TUITGroupsFilter
+from .filters import TUITPublicationsFilter
 from .models import (
-    TUITSystemsModel,
-    TUITGroupsModel,
-    TUITTypesModel,
+    TUITMainModel,
+    TUITPublicationsModel,
+    TUITPapersModel,
     TUITRequirementsModel,
     TUITFaqModel,
     TUITContactsModel,
 )
 from .permissions import IsSuperUserORReadOnly
 from .serializers import (
-    TUITSystemsSerializer, TUITSystemsGETSerializer,
-    TUITGroupsSerializer, TUITGroupsGETSerializer,
-    TUITTypesSerializer,
+    TUITMainSerializer, TUITMainGETSerializer,
+    TUITPublicationsSerializer, TUITPublicationsGETSerializer,
+    TUITPapersSerializer, TUITPapersGETSerializer,
     TUITRequirementsSerializer,
     TUITFAQSerializer,
     TUITContactsSerializer,
@@ -29,39 +29,39 @@ from .serializers import (
 
 
 # Create your views here.
-class TUITSystemsViewSet(ModelViewSet):
-    queryset = TUITSystemsModel.objects.all()
+class TUITMainViewSet(ModelViewSet):
+    queryset = TUITMainModel.objects.all()
     permission_classes = [IsSuperUserORReadOnly]
 
     def get_serializer_class(self):
         if self.request.method == 'GET':
-            return TUITSystemsGETSerializer
-        return TUITSystemsSerializer
+            return TUITMainGETSerializer
+        return TUITMainSerializer
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
         return serializer.save
 
-class TUITGroupsViewSet(ModelViewSet):
-    queryset = TUITGroupsModel.objects.all()
+class TUITPublicationsViewSet(ModelViewSet):
+    queryset = TUITPublicationsModel.objects.all()
     permission_classes = [IsSuperUserORReadOnly]
     filter_backends = (DjangoFilterBackend,)
-    filterset_class = TUITGroupsFilter
+    filterset_class = TUITPublicationsFilter
 
     def get_serializer_class(self):
         if self.request.method == 'GET':
-            return TUITGroupsGETSerializer
-        return TUITGroupsSerializer
+            return TUITPublicationsGETSerializer
+        return TUITPublicationsSerializer
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
         return serializer.save
 
 
-class TUITTypesViewSet(ModelViewSet):
-    queryset = TUITTypesModel.objects.all()
+class TUITPapersViewSet(ModelViewSet):
+    queryset = TUITPapersModel.objects.all()
     permission_classes = [IsSuperUserORReadOnly]
-    serializer_class = TUITTypesSerializer
+    serializer_class = TUITPapersSerializer
 
 
 
@@ -106,8 +106,8 @@ class TUITContactsViewSet(viewsets.ModelViewSet):
     serializer_class = TUITContactsSerializer
     permission_classes = [IsAdminUser]
     filter_backends = [DjangoFilterBackend, SearchFilter]
-    filterset_fields = ['first_name', 'last_name']
-    search_fields = ['first_name', 'last_name', 'message']
+    filterset_fields = ['first_name', 'email']
+    search_fields = ['first_name', 'email', 'message']
 
     def get_serializer_class(self):
         if self.request.method == 'GET':
